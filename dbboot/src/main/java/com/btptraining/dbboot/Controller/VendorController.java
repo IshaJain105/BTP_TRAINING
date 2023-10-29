@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PutMapping;
 
 //mark it as a microservice
@@ -48,8 +49,13 @@ public class VendorController {
         return myVendorService.deleteVendor(id);
     }
 
-    @RequestMapping(value = "/vendor/company/{id}")
-    public List<Vendor> getVendorByCompanyName(@PathVariable("id") String company) {
+    // @RequestMapping(value = "/vendor/company/{id}")
+    // public List<Vendor> getVendorByCompanyName(@PathVariable("id") String company) {
+    //     return myVendorService.getVendorByCompanyName(company);
+    // }
+
+    @RequestMapping(value = "/vendor/company")
+    public List<Vendor> getVendorByCompanyName(@RequestParam String company) {
         return myVendorService.getVendorByCompanyName(company);
     }
 

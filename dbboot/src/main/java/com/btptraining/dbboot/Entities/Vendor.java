@@ -1,16 +1,23 @@
 package com.btptraining.dbboot.Entities;
 
+import java.util.ArrayList;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 //bean creation
 @Component
@@ -19,7 +26,7 @@ import org.springframework.stereotype.Component;
 @Table(name = "VENDOR")
 public class Vendor {
     @Id
-    @Column(nullable = false, name = "CODE")
+    @Column(nullable = false, name = "ID")
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     private String code;
@@ -39,6 +46,11 @@ public class Vendor {
     private Integer status;
     @Column(nullable = false, name = "REG_DATE")
     private Date regDate;
+
+    // Association of vendors with addresses
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "vendor", referencedColumnName = "ID")
+    private List<Address> addresses = new ArrayList<Address>();
 
     // Default Constructor
     public Vendor(String code, String companyName, String contactPerson, String firstName, String lastName) {
@@ -135,6 +147,14 @@ public class Vendor {
 
     public void setRegDate(Date regDate) {
         this.regDate = regDate;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
     }
 
 }
